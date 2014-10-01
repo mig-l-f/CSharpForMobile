@@ -9,7 +9,6 @@
 //using System.Windows.Media.Animation;
 //using System.Windows.Shapes;
 using NUnit.Framework;
-using Moq;
 using ToDoList.Core.Model;
 
 
@@ -58,7 +57,7 @@ namespace ToDoList.Test
             Assert.IsTrue(toDoItemIdChanged, "Event was not fired on second todo item id change");
         }
 
-        [Test]
+        /*[Test]
         public void testEventChangingIsFiredOnToDoItemChanging()
         {
             ToDoItem target = new ToDoItem();
@@ -66,7 +65,7 @@ namespace ToDoList.Test
             target.PropertyChanging += (obj, args) => { if (args.PropertyName.Equals("ToDoItemId")) isToDoItemIdChanging = true; };
             target.ToDoItemId = 10;
             Assert.IsTrue(isToDoItemIdChanging, "Changing event was not fired on item id change");
-        }
+        }*/
 
         [Test]
         public void testChangedEventFiresCorrectlyOnItemNameChange()

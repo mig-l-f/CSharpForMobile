@@ -54,6 +54,10 @@
     <Compile Include="Model\ToDoDataContext.cs" />
     <Compile Include="Model\ToDoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IToDoItemDataService.cs" />
+    <Compile Include="Services\ToDoItemDataService.cs" />
+    <Compile Include="ViewModel\AllToDoItemsViewModel.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\ToDoViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
