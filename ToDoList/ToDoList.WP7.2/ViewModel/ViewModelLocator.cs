@@ -45,7 +45,7 @@ namespace ToDoList.WP7._2.ViewModel
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
-            SimpleIoc.Default.Register<MainViewModel>();
+            //SimpleIoc.Default.Register<MainViewModel>();
 
             // Registering AllToDoItemsiewModel with IToDoItemDataService
             SimpleIoc.Default.Register<ToDoDataContext>();
@@ -57,14 +57,6 @@ namespace ToDoList.WP7._2.ViewModel
             SimpleIoc.Default.Register<AllToDoItemsViewModel>();
             SimpleIoc.Default.Register<NewToDoItemViewModel>();
 
-        }
-
-        public MainViewModel Main
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
         }
 
         public AllToDoItemsViewModel AllToDoItems
