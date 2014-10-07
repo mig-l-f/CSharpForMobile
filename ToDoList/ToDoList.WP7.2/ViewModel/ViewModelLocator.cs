@@ -15,6 +15,9 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using ToDoList.Core.ViewModel;
+using ToDoList.Core.Services;
+using ToDoList.Core.Model;
 
 namespace ToDoList.WP7._2.ViewModel
 {
@@ -43,6 +46,17 @@ namespace ToDoList.WP7._2.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
+
+            // Registering AllToDoItemsiewModel with IToDoItemDataService
+            SimpleIoc.Default.Register<ToDoDataContext>();
+            if (!SimpleIoc.Default.IsRegistered<IToDoItemDataService>())
+            {
+                SimpleIoc.Default.Register<IToDoItemDataService, ToDoItemDataService>();
+            }
+            
+            SimpleIoc.Default.Register<AllToDoItemsViewModel>();
+            SimpleIoc.Default.Register<NewToDoItemViewModel>();
+
         }
 
         public MainViewModel Main
@@ -52,7 +66,23 @@ namespace ToDoList.WP7._2.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-        
+
+        public AllToDoItemsViewModel AllToDoItems
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AllToDoItemsViewModel>();
+            }
+        }
+
+        public NewToDoItemViewModel NewToDoItem
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<NewToDoItemViewModel>();
+            }
+        }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

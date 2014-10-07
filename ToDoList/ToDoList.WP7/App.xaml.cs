@@ -85,7 +85,8 @@ namespace ToDoList.WP7
             // Specify the local database connection string.
             string DBConnectionString = "Data Source=isostore:/ToDo.sdf";
 
-            ToDoDataContext db = new ToDoDataContext(DBConnectionString);
+            //ToDoDataContext db = new ToDoDataContext(DBConnectionString);
+            ToDoDataContext db = new ToDoDataContext();
             if (db.DatabaseExists() == false)
             {
                 ToDoCategory homeCat = new ToDoCategory { Name = "Home" };

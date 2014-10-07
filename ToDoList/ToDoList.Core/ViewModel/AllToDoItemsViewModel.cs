@@ -7,6 +7,7 @@ using System.Windows.Input;
 //using System.Text;
 using ToDoList.Core.Model;
 using ToDoList.Core.Services;
+using ToDoList.Core.ViewModel.Services;
 
 namespace ToDoList.Core.ViewModel
 {
@@ -23,7 +24,8 @@ namespace ToDoList.Core.ViewModel
         private List<ToDoItem> _homeToDoItems;
         private List<ToDoItem> _workToDoItems;
         private List<ToDoItem> _hobbiesToDoItems;
-        private RelayCommand _deleteToDoItemCommand;
+        private ICommand _deleteToDoItemCommand;
+        private ICommand _navigateToNewItemPageCommand;
         #endregion
 
         #region Properties
@@ -31,10 +33,7 @@ namespace ToDoList.Core.ViewModel
         {
             get 
             {
-                //if (_allToDoItems == null)
-                //{
                 _allToDoItems = _dataContext.GetAllToDoItems();
-                //}
                 return _allToDoItems;
             }
             set
@@ -48,10 +47,7 @@ namespace ToDoList.Core.ViewModel
         {
             get
             {
-                //if (_homeToDoItems == null)
-                //{
-                    _homeToDoItems = _dataContext.GetAllToDoItemsForCategory("Home");
-                //}
+                _homeToDoItems = _dataContext.GetAllToDoItemsForCategory("Home");
                 return _homeToDoItems;
             }
 
@@ -107,7 +103,6 @@ namespace ToDoList.Core.ViewModel
                 return _deleteToDoItemCommand;
             }
         }
-    
         #endregion
 
         #region INotifyPropertChanged
@@ -152,5 +147,6 @@ namespace ToDoList.Core.ViewModel
             }
         }
         #endregion
+
     }
 }

@@ -41,6 +41,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="system.data.linq" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -50,6 +52,7 @@
     <Reference Include="mscorlib.extensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Configuration.cs" />
     <Compile Include="Model\ToDoCategory.cs" />
     <Compile Include="Model\ToDoDataContext.cs" />
     <Compile Include="Model\ToDoItem.cs" />
@@ -57,7 +60,10 @@
     <Compile Include="Services\IToDoItemDataService.cs" />
     <Compile Include="Services\ToDoItemDataService.cs" />
     <Compile Include="ViewModel\AllToDoItemsViewModel.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\Helper\RelayCommand.cs" />
+    <Compile Include="ViewModel\NewToDoItemViewModel.cs" />
+    <Compile Include="ViewModel\Services\INavigationService.cs" />
+    <Compile Include="ViewModel\Services\AppNavigationService.cs" />
     <Compile Include="ViewModel\ToDoViewModel.cs" />
   </ItemGroup>
   <ItemGroup />

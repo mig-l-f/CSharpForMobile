@@ -20,7 +20,7 @@ namespace ToDoList.WP7._2
         {
             InitializeComponent();
 
-            this.DataContext = App.AllItemsViewModel;
+            //this.DataContext = App.AllItemsViewModel;
         }
     }
 }

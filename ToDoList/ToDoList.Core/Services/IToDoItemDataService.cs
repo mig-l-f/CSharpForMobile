@@ -9,7 +9,7 @@ namespace ToDoList.Core.Services
     public interface IToDoItemDataService
     {
         List<ToDoItem> GetAllToDoItems();
-        IEnumerable<ToDoCategory> GetAllToDoCategories();
+        List<ToDoCategory> GetAllToDoCategories();
         List<ToDoItem> GetAllToDoItemsForCategory(String categoryName);
 
         void InsertToDoItem(ToDoItem newToDoItem);

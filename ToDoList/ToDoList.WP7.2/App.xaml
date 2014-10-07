@@ -6,8 +6,9 @@
                 <views:MainPage />
             </DataTemplate>
         </ResourceDictionary>-->
-    <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:ToDoList.WP7._2.ViewModel" />
-  </Application.Resources>
+        <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:ToDoList.WP7._2.ViewModel" />
+        <!--<Application x:Key="Application" />-->
+    </Application.Resources>
   <Application.ApplicationLifetimeObjects>
     <!--Required object that handles lifetime events for the application-->
     <shell:PhoneApplicationService Launching="Application_Launching" Closing="Application_Closing" Activated="Application_Activated" Deactivated="Application_Deactivated" />

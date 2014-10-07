@@ -22,7 +22,6 @@ namespace ToDoList.WP7
             InitializeComponent();
 
             // Set the data context of the listbox control to the sample data
-            DataContext = App.TodosViewModel;
             //this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 

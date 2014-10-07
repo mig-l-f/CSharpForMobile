@@ -57,9 +57,9 @@ namespace ToDoList.Test
             
         }
 
-        public IEnumerable<ToDoCategory> GetAllToDoCategories()
+        public List<ToDoCategory> GetAllToDoCategories()
         {
-            throw new NotImplementedException();
+            return ListOfAllCategories;
         }
 
         public List<ToDoItem> GetAllToDoItemsForCategory(string categoryName)
@@ -74,7 +74,7 @@ namespace ToDoList.Test
 
         public void InsertToDoItem(ToDoItem newToDoItem)
         {
-            throw new NotImplementedException();
+            _listOfAllItems.Add(newToDoItem);
         }
 
         public void DeleteToDoItem(ToDoItem deleteToDoItem)

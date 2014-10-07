@@ -10,12 +10,14 @@
     xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:ec="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+    xmlns:appbar="clr-namespace:AppBarUtils;assembly=AppBarUtils"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    DataContext="{Binding Source={StaticResource Locator}, Path=AllToDoItems}">
        
     <phone:PhoneApplicationPage.Resources>
         <DataTemplate x:Key="ToDoListBoxItemTemplate">
@@ -117,5 +119,18 @@
             </controls:Pivot>
         </Grid>
     </Grid>
- 
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+                <shell:ApplicationBarIconButton
+                        IconUri="/Images/add.png"
+                        Text="add"
+                        x:Name="newTaskAppBarButton" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+    
+    <i:Interaction.Behaviors>
+        <appbar:AppBarItemNavigation Type="Button" Id="add" TargetPage="/NewItemPage.xaml" />
+        <!--<appbar:AppBarItemCommand Id="add" Command="{Binding NavigateToNewItemPageCommand}" />-->
+    </i:Interaction.Behaviors>
+    
 </phone:PhoneApplicationPage>

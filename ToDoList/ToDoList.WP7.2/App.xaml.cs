@@ -15,6 +15,7 @@ using Microsoft.Phone.Shell;
 using ToDoList.Core.Model;
 using ToDoList.Core.Services;
 using ToDoList.Core.ViewModel;
+using ToDoList.Core.ViewModel.Services;
 using System.Data.Linq;
 
 namespace ToDoList.WP7._2
@@ -28,7 +29,7 @@ namespace ToDoList.WP7._2
         public PhoneApplicationFrame RootFrame { get; private set; }
 
         public static AllToDoItemsViewModel AllItemsViewModel { get; private set; }
-
+        public static NewToDoItemViewModel NewItemViewModel { get; private set; }
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
@@ -64,9 +65,11 @@ namespace ToDoList.WP7._2
             }
 
             // Specify the local database connection string.
-            string DBConnectionString = "Data Source=isostore:/ToDo.sdf";
+            //string DBConnectionString = "Data Source=isostore:/ToDo.sdf";
 
-            ToDoDataContext db = new ToDoDataContext(DBConnectionString);
+            //ToDoDataContext db = new ToDoDataContext(DBConnectionString);
+            ToDoDataContext db = new ToDoDataContext();
+            
             if (db.DatabaseExists() == false)
             {
                 ToDoCategory homeCat = new ToDoCategory { Name = "Home" };
@@ -87,7 +90,10 @@ namespace ToDoList.WP7._2
                 db.SubmitChanges();
             }
             ToDoItemDataService itemDataService = new ToDoItemDataService(db);
+            //PhoneApplicationFrame phoneApplicationFrame = Application.Current.RootVisual as PhoneApplicationFrame;
+            //AppNavigationService navigationService = new AppNavigationService(phoneApplicationFrame);
             AllItemsViewModel = new AllToDoItemsViewModel(itemDataService);
+            NewItemViewModel = new NewToDoItemViewModel(itemDataService);
         }
 
         // Code to execute when the application is launching (eg, from Start)

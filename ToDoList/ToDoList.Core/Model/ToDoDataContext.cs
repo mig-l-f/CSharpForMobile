@@ -8,9 +8,15 @@ namespace ToDoList.Core.Model
 {
     public class ToDoDataContext : DataContext
     {
-        public ToDoDataContext(string connectionString) : base(connectionString) 
-        {
-        }
+
+        public ToDoDataContext()
+            : base(Configuration.DbConnection)
+        { }
+        //public ToDoDataContext(string connectionString) : base(connectionString) 
+        //{
+        //}
+
+
 
         public Table<ToDoItem> Items;
 

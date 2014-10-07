@@ -22,7 +22,7 @@ namespace ToDoList.Core.Services
             return _context.Items.AsEnumerable().ToList();
         }
 
-        public IEnumerable<ToDoCategory> GetAllToDoCategories()
+        public List<ToDoCategory> GetAllToDoCategories()
         {
             return _context.Categories.AsEnumerable().ToList();
         }
@@ -38,7 +38,8 @@ namespace ToDoList.Core.Services
 
         public void InsertToDoItem(ToDoItem newToDoItem)
         {
-            throw new NotImplementedException();
+            _context.Items.InsertOnSubmit(newToDoItem);
+            _context.SubmitChanges();
         }
 
         public void DeleteToDoItem(ToDoItem deleteToDoItem)
