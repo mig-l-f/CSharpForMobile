@@ -1,0 +1,18 @@
+{
+	"APIVersion": 1,
+	"APIRequestsRemaining": 996,
+	"DeveloperAuthentication": "TRUE",
+	"Action": "fixtures",
+	"Params": {
+		"Action": "fixtures",
+		"APIKey": "4221fc7b-052a-a555-f4399933af7c",
+		"from_date": "06.10.2014",
+		"to_date": "12.10.2014",
+		"comp_id": "1204"
+	},
+	"ComputationTime": 0.054419040679932,
+	"IP": "82.38.238.19",
+	"ERROR": "no matches found in that day",
+	"ServerName": "Football-API",
+	"ServerAddress": "http:\/\/football-api.com\/api"
+}

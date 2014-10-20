@@ -1,0 +1,14 @@
+{
+	"APIVersion": 1,
+	"DeveloperAuthentication": "FALSE",
+	"Action": "competitions",
+	"Params": {
+		"Action": "competitions",
+		"APIKey": "4221fc7b-052a-a555-f4399933afbc"
+	},
+	"ComputationTime": 0.0016891956329346,
+	"IP": "82.38.238.19",
+	"ERROR": "API Key not found",
+	"ServerName": "Football-API",
+	"ServerAddress": "http:\/\/football-api.com\/api"
+}

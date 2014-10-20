@@ -1,0 +1,16 @@
+{
+	"APIVersion": 1,
+	"APIRequestsRemaining": 1000,
+	"DeveloperAuthentication": "TRUE",
+	"Action": "today",
+	"Params": {
+		"Action": "today",
+		"APIKey": "4221fc7b-052a-a555-f4399933af7c",
+		"comp_id": "1204"
+	},
+	"ComputationTime": 0.0029289722442627,
+	"IP": "82.38.238.19",
+	"ERROR": "no matches found today",
+	"ServerName": "Football-API",
+	"ServerAddress": "http:\/\/football-api.com\/api"
+}
