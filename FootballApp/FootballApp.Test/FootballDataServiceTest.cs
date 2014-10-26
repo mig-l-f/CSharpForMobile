@@ -71,7 +71,7 @@ namespace FootballApp.Test
         // End removed tests
         
         [Test]
-        public async void testRequestForAvailableCompetitionsAsyncReturnsCorrectList()
+        public async Task testRequestForAvailableCompetitionsAsyncReturnsCorrectList()
         {
             StreamReader jsonReader = new StreamReader(@"../../Data/competitions.json");
             string json = jsonReader.ReadToEnd();
@@ -86,7 +86,7 @@ namespace FootballApp.Test
 
 
         [Test]
-        public async void testRequestForCurrentStandingsAsyncReturnsCorrectList()
+        public async Task testRequestForCurrentStandingsAsyncReturnsCorrectList()
         {
             StreamReader jsonReader = new StreamReader(@"../../Data/standingsSuccessful.json");
             string json = jsonReader.ReadToEnd();
@@ -101,7 +101,7 @@ namespace FootballApp.Test
         }
 
         [Test]
-        public async void testInvalidRequestForCurrentStandingsAsyncReturnsEmptyList()
+        public async Task testInvalidRequestForCurrentStandingsAsyncReturnsEmptyList()
         {
             StreamReader jsonReader = new StreamReader(@"../../Data/standingsFailedWrongCompetition.json");
             string json = jsonReader.ReadToEnd();
@@ -113,7 +113,7 @@ namespace FootballApp.Test
         }
 
         [Test]
-        public async void testRequestForFixturesWithMatchDateAsyncReturnCorrectList()
+        public async Task testRequestForFixturesWithMatchDateAsyncReturnCorrectList()
         {
             StreamReader jsonReader = new StreamReader(@"../../Data/fixtures.json");
             string json = jsonReader.ReadToEnd();
@@ -127,7 +127,7 @@ namespace FootballApp.Test
         }
 
         [Test]
-        public async void testRequestForFixturesWithDateRangeAsyncReturnsCorrectList()
+        public async Task testRequestForFixturesWithDateRangeAsyncReturnsCorrectList()
         {
             StreamReader jsonReader = new StreamReader(@"../../Data/fixturesWeekSuccess.json");
             string json = jsonReader.ReadToEnd();
@@ -141,24 +141,28 @@ namespace FootballApp.Test
         }
 
         [Test]
-        public async void testRequestForAvailableCompetitionsAsyncOnExceptionThrownAnEmptyListIsReturned()
+        public async Task testRequestForAvailableCompetitionsAsyncOnExceptionThrownRethrownsThatException()
         {
-            string json = "";
             dataServiceMock.Setup(s => s.MakeJsonWebRequestAsync(It.IsAny<string>()))
                            .Returns(() => Task.Factory.StartNew(() => 
                            {
-                               var child = Task.Factory.StartNew(() => 
-                               {
-                                   throw new Exception("Test Exception");
-                               });                               
-                               return json;
+                               throw new Exception("Test Exception");
+                               return String.Empty;
                            }));
-            List<Competition> competitions = await target.GetAvailableCompetitionsAsync();
-            Assert.IsFalse(competitions.Any(), "Competitions list should be empty");
+            string exceptionMessage = "";
+            try
+            {
+                List<Competition> competitions = await target.GetAvailableCompetitionsAsync();
+            }
+            catch (Exception e)
+            {
+                exceptionMessage = e.Message;
+            }
+            Assert.AreEqual("Test Exception", exceptionMessage, "The expected exception was not caugth");
         }
 
         [Test]
-        public async void testRequestForCurrentStandingsAsyncOnExceptionThrownAnEmptyListIsReturned()
+        public async Task testRequestForCurrentStandingsAsyncOnExceptionThrownAnEmptyListIsReturned()
         {
             string json = "";
             dataServiceMock.Setup(s => s.MakeJsonWebRequestAsync(It.IsAny<string>()))
@@ -175,7 +179,7 @@ namespace FootballApp.Test
         }
 
         [Test]
-        public async void testRequestForFixturesForDateAsyncOnExceptionThrownAnEmptyListIsReturned()
+        public async Task testRequestForFixturesForDateAsyncOnExceptionThrownAnEmptyListIsReturned()
         {
             string json = "";
             dataServiceMock.Setup(s => s.MakeJsonWebRequestAsync(It.IsAny<string>()))
@@ -192,7 +196,7 @@ namespace FootballApp.Test
         }
 
         [Test]
-        public async void testRequestForFixturesForDateRangeAsyncOnExceptionThrownAnEmptyListIsReturned()
+        public async Task testRequestForFixturesForDateRangeAsyncOnExceptionThrownAnEmptyListIsReturned()
         {
             string json = "";
             dataServiceMock.Setup(s => s.MakeJsonWebRequestAsync(It.IsAny<string>()))

@@ -60,9 +60,14 @@ namespace FootballApp.Core.Services
                 string webResponse = await dataService.MakeJsonWebRequestAsync(url);
                 competitions = deserializeFootbalDataService.DeserializeCompetitionList(webResponse);
             }
+            catch (AggregateException ae)
+            {
+                throw ae.InnerException;
+            }
             catch (Exception)
             {
                 competitions = new List<Competition>();
+                throw;
             }
             return competitions;
         }

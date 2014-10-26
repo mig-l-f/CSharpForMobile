@@ -14,6 +14,7 @@ namespace FootballApp.Core.Services
         {
             using (var client = new HttpClient())
             {
+                client.Timeout = TimeSpan.FromMinutes(5);
                 var request = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
                 var httpResponse = await client.SendAsync(request);
                 string response = await httpResponse.Content.ReadAsStringAsync();
