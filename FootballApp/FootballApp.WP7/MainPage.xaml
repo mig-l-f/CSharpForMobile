@@ -4,17 +4,47 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:FootballApp.Core.ViewModel;assembly=FootballApp.Core"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
-    DataContext="{Binding Source={StaticResource Locator}, Path=AvailableCompetitionsViewModel}">
-    
-    <!--LayoutRoot is the root grid where all page content is placed-->
+    DataContext="{Binding Source={StaticResource Locator}, Path=AvailableCompetitionsViewModel}"
+    d:DataContext="{d:DesignInstance vm:SelectCompetitionViewModel, IsDesignTimeCreatable=True}">
+
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="CompetitionTemplate">
+            <Grid Width="420" Height="50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="4*" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" 
+                       Source="Resources/logo_premier_league.png" />
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                        Text="{Binding Name}" 
+                        VerticalAlignment="Center"
+                        TextAlignment="Left" 
+                        HorizontalAlignment="Stretch"
+                        FontSize="22"/>
+                    <TextBlock Grid.Row="1"
+                        Text="{Binding Region}" 
+                        FontSize="14"/>
+                </Grid>
+            </Grid>            
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+        <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -43,13 +73,15 @@
                        VerticalAlignment="Top" HorizontalContentAlignment="Stretch" 
                        ItemsSource="{Binding GetAvailableCompetitionsCommand.Execution.Result}" 
                        Visibility="{Binding GetAvailableCompetitionsCommand.Execution.IsSuccessfullyCompleted, 
-                       Converter={StaticResource BooleanToVisibilityConverter}}">
-                      <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center"
-                                   TextAlignment="Center" HorizontalAlignment="Stretch"/>
-                        </DataTemplate>
-                      </ListBox.ItemTemplate>
+                       Converter={StaticResource BooleanToVisibilityConverter}}"
+                       SelectedItem="{Binding SelectedCompetition, Mode=TwoWay}"
+                       SelectionMode="Single"
+                       ItemTemplate="{StaticResource CompetitionTemplate}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding NavigateToSelectedCompetitionCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </ListBox>
             
                 <!-- Busy Indicator -->

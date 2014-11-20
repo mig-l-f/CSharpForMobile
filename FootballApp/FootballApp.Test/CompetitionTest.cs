@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace FootballApp.Test
 {
-    [TestFixture, Category("UnitTests")]
+    [TestFixture, Category("CompetitionTests")]
     public class CompetitionTest
     {
       

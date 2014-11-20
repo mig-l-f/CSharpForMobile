@@ -18,7 +18,7 @@ namespace FootballApp.Test
     [TestFixture, Category("IntegrationTestsWithServerCall")]
     public class IntegrationTestsWithServerCall
     {
-        private FootballDataService target;
+        private FootballDataService footballDataService;
         private IDeserializeFootballDataService deserializeService;
         private IDataService dataService;
 
@@ -27,13 +27,13 @@ namespace FootballApp.Test
         {
             deserializeService = new DeserializeFootballDataService();
             dataService = new DataService();
-            target = new FootballDataService(dataService, deserializeService);
+            footballDataService = new FootballDataService(dataService, deserializeService);
         }
 
         [Test]
         public async Task testCompetitionRequestToServer()
         {
-            List<Competition> competitions = await target.GetAvailableCompetitionsAsync();
+            List<Competition> competitions = await footballDataService.GetAvailableCompetitionsAsync();
             Assert.AreEqual(1, competitions.Count, "Number of available competitions is incorrect");
             Assert.AreEqual(1204, competitions.First().Id);
             Assert.AreEqual("Premier League", competitions.First().Name);
@@ -42,10 +42,23 @@ namespace FootballApp.Test
         [Test]
         public async Task testCurrentStandingsRequestToServer()
         {
-            List<Team> standings = await target.GetCurrentStandingsAsync(1204);
+            List<Team> standings = await footballDataService.GetCurrentStandingsAsync(1204);
             Assert.AreEqual(20, standings.Count, "Number of teams is not correct");
             Assert.AreEqual("UEFA Champions League", standings.First().PositionDescription, "First place should qualify for Champions League");
             Assert.AreEqual("Relegation", standings.Last().PositionDescription, "Team in last place should be in the relegation zone");
+        }
+
+        [Test]
+        public async Task testTodayFixturesRequestToServer()
+        {
+            CompetitionViewModel target = new CompetitionViewModel(new Competition { Id = 1204, Name = "Premier League" }, footballDataService);
+
+            await target.GetTodayFixturesCommand.ExecuteAsync(null);
+            
+            Assert.IsTrue(target.GetTodayFixturesCommand.Execution.IsCompleted, "Get fixtures should have completed");
+            Assert.IsFalse(target.GetTodayFixturesCommand.Execution.IsFaulted, "Get fixtures should not be faulted");
+            Assert.IsTrue(target.GetTodayFixturesCommand.Execution.IsSuccessfullyCompleted, "Get fixtures should be successful");
+            Console.WriteLine(String.Format("Found {0} fixtures for date {1}", target.GetTodayFixturesCommand.Execution.Result.Count, DateTime.Today.ToString("dd.MM.yyyy")));
         }
         
     }

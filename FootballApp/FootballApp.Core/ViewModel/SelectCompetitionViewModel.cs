@@ -23,12 +23,21 @@ namespace FootballApp.Core.ViewModel
         private Competition _selectedCompetition = null;
         private ICommand _navigateToSelectedCompetitionCommand;
 
+        // Constructor for design time
+        public SelectCompetitionViewModel()
+        {
+            _dataService = SimpleIoc.Default.GetInstance<IFootballDataService>();
+            _navigationService = null;
+            GetAvailableCompetitionsCommand = new AsyncCommand<List<Competition>>(() => _dataService.GetAvailableCompetitionsAsync());
+            GetAvailableCompetitionsCommand.Execute(null);
+        }
+
+        [PreferredConstructor]
         public SelectCompetitionViewModel(IFootballDataService dataService, INavigationService navigationService)
         {
             _dataService = dataService;
             _navigationService = navigationService;
-            GetAvailableCompetitionsCommand = new AsyncCommand<List<Competition>>(() => _dataService.GetAvailableCompetitionsAsync());
-            //Initialize();
+            GetAvailableCompetitionsCommand = new AsyncCommand<List<Competition>>(() => _dataService.GetAvailableCompetitionsAsync());            
         }
 
         public Task Initialize()
@@ -93,10 +102,11 @@ namespace FootballApp.Core.ViewModel
 
             if (!SimpleIoc.Default.IsRegistered<CompetitionViewModel>(SelectedCompetition.Id.ToString()))
             {
-                SimpleIoc.Default.Register(() => new CompetitionViewModel(SelectedCompetition), SelectedCompetition.Id.ToString());                
+                SimpleIoc.Default.Register(() => new CompetitionViewModel(SelectedCompetition, _dataService), SelectedCompetition.Id.ToString());                
             }
 
-            _navigationService.NavigateTo(new Uri("/CompetitionView.xaml", UriKind.Relative));
+            _navigationService.NavigateTo(
+                new Uri(String.Format("/CompetitionView.xaml?{0}", SelectedCompetition.Id), UriKind.Relative));
         }
 
         #endregion

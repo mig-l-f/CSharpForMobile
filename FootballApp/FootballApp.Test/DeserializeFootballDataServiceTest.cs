@@ -9,7 +9,7 @@ using FootballApp.Core.Model;
 
 namespace FootballApp.Test
 {
-    [TestFixture, Category("UnitTests")]
+    [TestFixture, Category("DeserializeUnitTests")]
     public class DeserializeFootballDataServiceTest
     {
         IDeserializeFootballDataService target;
@@ -52,7 +52,7 @@ namespace FootballApp.Test
 
             var list = target.DeserializeMatchesList(json);
             Assert.AreEqual(4, list.Count, "Fixtures list should have 4 matches");
-            Assert.AreEqual("Manchester United", list[0].LocalteamName, "Local team for first match is not the expected");
+            Assert.AreEqual("Manchester United", list[0].LocalTeamName, "Local team for first match is not the expected");
         }
 
         [Test]

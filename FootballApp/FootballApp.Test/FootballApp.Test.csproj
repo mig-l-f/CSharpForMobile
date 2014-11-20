@@ -110,6 +110,7 @@
     <Reference Include="mscorlib.extensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompetitionViewModelTest.cs" />
     <Compile Include="SelectCompetitionViewModelTest.cs" />
     <Compile Include="CompetitionTest.cs" />
     <Compile Include="DeserializeFootballDataServiceTest.cs" />

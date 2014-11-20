@@ -108,7 +108,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\DeserializeFootballDataService.cs" />
-    <Compile Include="Services\DesignTime\DesignTimeFootballDataService.cs" />
+    <Compile Include="Design\DesignTimeFootballDataService.cs" />
     <Compile Include="Services\FootballDataService.cs" />
     <Compile Include="Services\IDataService.cs" />
     <Compile Include="Services\IDeserializeFootballDataService.cs" />

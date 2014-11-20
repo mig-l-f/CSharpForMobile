@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FootballApp.Test
 {
-    [TestFixture, Category("UnitTests")]
+    [TestFixture, Category("FootballDataServiceTests")]
     public class FootballDataServiceTest
     {
         private FootballDataService target;
@@ -122,8 +122,8 @@ namespace FootballApp.Test
 
             List<FootballApp.Core.Model.Match> fixtures = await target.GetFixturesForDateAsync(1204, new DateTime(2014, 10, 05));
             Assert.AreEqual(4, fixtures.Count, "Number of expected fixtures does not match");
-            Assert.AreEqual("Tottenham", fixtures[2].LocalteamName, "Third game local team does not match");
-            Assert.AreEqual("Southampton", fixtures[2].VisitorteamName, "Third game visitor team does not match");
+            Assert.AreEqual("Tottenham", fixtures[2].LocalTeamName, "Third game local team does not match");
+            Assert.AreEqual("Southampton", fixtures[2].VisitorTeamName, "Third game visitor team does not match");
         }
 
         [Test]
@@ -136,8 +136,8 @@ namespace FootballApp.Test
 
             List<FootballApp.Core.Model.Match> fixtures = await target.GetFixturesForDateRangeAsync(1204, new DateTime(2014, 09, 29), new DateTime(2014, 10, 05));
             Assert.AreEqual(11, fixtures.Count, "Number of expected matches is incorrect");
-            Assert.AreEqual("West Ham", fixtures.Last().LocalteamName, "Wrong local team for last match");
-            Assert.AreEqual("QPR", fixtures.Last().VisitorteamName, "Wrong visitor team name for last match");
+            Assert.AreEqual("West Ham", fixtures.Last().LocalTeamName, "Wrong local team for last match");
+            Assert.AreEqual("QPR", fixtures.Last().VisitorTeamName, "Wrong visitor team name for last match");
         }
 
         [Test]

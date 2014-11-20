@@ -55,6 +55,7 @@
       <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\sl4-wp71\GalaSoft.MvvmLight.Extras.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\sl4-wp71\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -106,6 +107,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CompetitionView.xaml.cs">
+      <DependentUpon>CompetitionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helper\BooleanToVisibilityConverter.cs" />
     <Compile Include="Helper\NullToVisibilityConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -120,6 +124,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="CompetitionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -137,9 +145,12 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\logo_premier_league.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FootballApp.Core\FootballApp.Core.csproj">
       <Project>{335EC4BD-3CDE-47FD-9EEC-33CFBD38E6CB}</Project>

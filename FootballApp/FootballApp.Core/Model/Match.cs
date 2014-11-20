@@ -58,23 +58,23 @@ namespace FootballApp.Core.Model
 
         [JsonProperty("match_localteam_id")]
         [JsonConverter(typeof(JsonStringToIntConvertor))]
-        public int LocalteamId { get; set; }
+        public int LocalTeamId { get; set; }
 
         [JsonProperty("match_localteam_name")]
-        public string LocalteamName { get; set; }
+        public string LocalTeamName { get; set; }
 
         [JsonProperty("match_localteam_score")]
-        public string LocalteamScore { get; set; }
+        public string LocalTeamScore { get; set; }
 
         [JsonProperty("match_visitorteam_id")]
         [JsonConverter(typeof(JsonStringToIntConvertor))]
-        public int VisitorteamId { get; set; }
+        public int VisitorTeamId { get; set; }
 
         [JsonProperty("match_visitorteam_name")]
-        public string VisitorteamName { get; set; }
+        public string VisitorTeamName { get; set; }
 
         [JsonProperty("match_visitorteam_score")]
-        public string VisitorteamScore { get; set; }
+        public string VisitorTeamScore { get; set; }
 
         [JsonProperty("match_ht_score")]
         public string HalfTimeScore { get; set; }

@@ -15,7 +15,7 @@ using FootballApp.Core.ViewModel.Services;
 
 namespace FootballApp.Test
 {
-    [TestFixture, Category("UnitTests")]
+    [TestFixture, Category("SelectCompetitionViewModelTests")]
     public class SelectCompetitionViewModelTest
     {
         Mock<IFootballDataService> dataServiceMock;
