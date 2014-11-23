@@ -17,6 +17,7 @@ namespace FootballApp.Core.ViewModel.Commands
         public AsyncCommand(Func<Task<TResult>> command)
         {
             _command = command;
+            _execution = new NotifyTaskCompletion<TResult>(_command());
         }
 
         #endregion
@@ -30,7 +31,8 @@ namespace FootballApp.Core.ViewModel.Commands
 
         public override Task ExecuteAsync(object parameter)
         {
-            Execution = new NotifyTaskCompletion<TResult>(_command());
+            // Execution = new NotifyTaskCompletion<TResult>(_command());
+            Execution.TaskCompletion = Execution.WatchTaskAsync();
             return Execution.TaskCompletion;
         }
 

@@ -9,14 +9,14 @@ namespace FootballApp.Core.ViewModel.Commands
         public NotifyTaskCompletion(Task<TResult> task)
         {
             Task = task;
-            if (!task.IsCompleted)
-                TaskCompletion = WatchTaskAsync(task);
+            //if (!task.IsCompleted)
+                //TaskCompletion = WatchTaskAsync(task);
         }
-        private async Task WatchTaskAsync(Task task)
+        public async Task WatchTaskAsync()
         {
             try
             {
-                await task;
+                await Task;
             }
             catch
             {
@@ -27,11 +27,11 @@ namespace FootballApp.Core.ViewModel.Commands
             propertyChanged(this, new PropertyChangedEventArgs("Status"));
             propertyChanged(this, new PropertyChangedEventArgs("IsCompleted"));
             propertyChanged(this, new PropertyChangedEventArgs("IsNotCompleted"));
-            if (task.IsCanceled)
+            if (Task.IsCanceled)
             {
                 propertyChanged(this, new PropertyChangedEventArgs("IsCanceled"));
             }
-            else if (task.IsFaulted)
+            else if (Task.IsFaulted)
             {
                 propertyChanged(this, new PropertyChangedEventArgs("IsFaulted"));
                 propertyChanged(this, new PropertyChangedEventArgs("Exception"));
@@ -45,7 +45,7 @@ namespace FootballApp.Core.ViewModel.Commands
             }
         }
         public Task<TResult> Task { get; private set; }
-        public Task TaskCompletion { get; private set; }
+        public Task TaskCompletion { get; set; }
         public TResult Result
         {
             get
