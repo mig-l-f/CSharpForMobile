@@ -14,6 +14,12 @@ namespace FootballApp.Core.ViewModel.Commands
         }
         public async Task WatchTaskAsync()
         {
+            var propertyChanged = PropertyChanged;
+            IsRunning = true;
+            if (propertyChanged != null)
+            {
+                propertyChanged(this, new PropertyChangedEventArgs("IsRunning"));
+            }
             try
             {
                 await Task;
@@ -21,12 +27,14 @@ namespace FootballApp.Core.ViewModel.Commands
             catch
             {
             }
-            var propertyChanged = PropertyChanged;
+            
             if (propertyChanged == null)
                 return;
             propertyChanged(this, new PropertyChangedEventArgs("Status"));
             propertyChanged(this, new PropertyChangedEventArgs("IsCompleted"));
             propertyChanged(this, new PropertyChangedEventArgs("IsNotCompleted"));
+            IsRunning = false;
+            propertyChanged(this, new PropertyChangedEventArgs("IsRunning"));
             if (Task.IsCanceled)
             {
                 propertyChanged(this, new PropertyChangedEventArgs("IsCanceled"));
@@ -44,7 +52,7 @@ namespace FootballApp.Core.ViewModel.Commands
                 propertyChanged(this, new PropertyChangedEventArgs("Result"));
             }
         }
-        public Task<TResult> Task { get; private set; }
+        public Task<TResult> Task { get; set; }
         public Task TaskCompletion { get; set; }
         public TResult Result
         {
@@ -67,6 +75,7 @@ namespace FootballApp.Core.ViewModel.Commands
         }
         public bool IsCanceled { get { return Task.IsCanceled; } }
         public bool IsFaulted { get { return Task.IsFaulted; } }
+        public bool IsRunning { get; set; }
         public AggregateException Exception { get { return Task.Exception; } }
         public Exception InnerException
         {

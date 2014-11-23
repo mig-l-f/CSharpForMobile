@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using FootballApp.Core.Model;
 using FootballApp.Core.ViewModel;
 using FootballApp.Core.ViewModel.Services;
 using FootballApp.Core.Services;
@@ -18,7 +19,9 @@ namespace FootballApp.WP7.ViewModel
 
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                SimpleIoc.Default.Register<IFootballDataService, DesignTimeFootballDataService>();
+                Competition competition = new Competition { Id = 11, Name = "MyCompetition" };
+                SimpleIoc.Default.Register<Competition>(() => competition);
+                SimpleIoc.Default.Register<IFootballDataService, DesignTimeFootballDataService>();                
             }
             else
             {
@@ -27,7 +30,7 @@ namespace FootballApp.WP7.ViewModel
                 SimpleIoc.Default.Register<IFootballDataService, FootballDataService>();
                 SimpleIoc.Default.Register<INavigationService, NavigationService>();
             }
-
+            SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<SelectCompetitionViewModel>();
         }
 

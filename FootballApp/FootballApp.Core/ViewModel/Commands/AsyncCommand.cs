@@ -32,6 +32,11 @@ namespace FootballApp.Core.ViewModel.Commands
         public override Task ExecuteAsync(object parameter)
         {
             // Execution = new NotifyTaskCompletion<TResult>(_command());
+            // If task has been executed before is completed. Assign new task to be run again
+            if (Execution.IsCompleted)
+            {                
+                Execution.Task = _command();
+            }
             Execution.TaskCompletion = Execution.WatchTaskAsync();
             return Execution.TaskCompletion;
         }

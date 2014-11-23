@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-//using System.Linq;
-//using System.Text;
+using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight;
 using FootballApp.Core.Model;
 using FootballApp.Core.Services;
 using FootballApp.Core.ViewModel.Commands;
-using GalaSoft.MvvmLight.Ioc;
+
 
 namespace FootballApp.Core.ViewModel
 {
@@ -35,6 +35,12 @@ namespace FootballApp.Core.ViewModel
 
             GetCurrentStandingsCommand = new AsyncCommand<List<Team>>(() => _dataService.GetCurrentStandingsAsync(_competition.Id));
             GetTodayFixturesCommand = new AsyncCommand<List<Match>>(() => _dataService.GetFixturesForDateAsync(_competition.Id, DateTime.Today));
+
+            //if (IsInDesignMode)
+            //{
+            //    GetTodayFixturesCommand.Execute(null);
+            //    GetCurrentStandingsCommand.Execute(null);
+            //}
         }
 
         #region Properties

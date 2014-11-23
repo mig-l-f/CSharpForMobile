@@ -86,12 +86,12 @@
             
                 <!-- Busy Indicator -->
                 <TextBox Text="Loading..." 
-                         Visibility="{Binding GetAvailableCompetitionsCommand.Execution.IsNotCompleted, 
+                         Visibility="{Binding GetAvailableCompetitionsCommand.Execution.IsRunning, 
                          Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <!-- Failed -->
-                <TextBox Text="{Binding GetAvailableCompetitionsCommand.Execution.ErrorMessage}" 
+                <!--<TextBox Text="{Binding GetAvailableCompetitionsCommand.Execution.ErrorMessage}" 
                          Visibility="{Binding GetAvailableCompetitionsCommand.Execution.IsFaulted,
-                         Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                         Converter={StaticResource BooleanToVisibilityConverter}}"/>-->
             </Grid>
             <Button Grid.Row="1" x:Name="RefreshButton" Content="Refresh"
                     Command="{Binding GetAvailableCompetitionsCommand}"></Button>

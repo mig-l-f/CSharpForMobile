@@ -119,6 +119,7 @@
     <Compile Include="ViewModel\CompetitionViewModel.cs" />
     <Compile Include="ViewModel\SelectCompetitionViewModel.cs" />
     <Compile Include="ViewModel\Commands\IAsyncCommand.cs" />
+    <Compile Include="ViewModel\Services\IDialogService.cs" />
     <Compile Include="ViewModel\Services\INavigationService.cs" />
   </ItemGroup>
   <ItemGroup>

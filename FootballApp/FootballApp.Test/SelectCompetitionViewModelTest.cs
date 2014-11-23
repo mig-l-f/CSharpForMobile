@@ -20,12 +20,14 @@ namespace FootballApp.Test
     {
         Mock<IFootballDataService> dataServiceMock;
         Mock<INavigationService> navigationMock;
+        Mock<IDialogService> dialogServiceMock;
 
         [SetUp]
         public void setUp()
         {
             dataServiceMock = null;
             navigationMock = null;
+            dialogServiceMock = null;
         }
 
         [Test]
@@ -41,7 +43,7 @@ namespace FootballApp.Test
                     return list;
                 }));
 
-            SelectCompetitionViewModel target = new SelectCompetitionViewModel(dataServiceMock.Object, null);
+            SelectCompetitionViewModel target = new SelectCompetitionViewModel(dataServiceMock.Object, null, null);
             target.GetAvailableCompetitionsCommand.Execute(null);
 
             while (target.GetAvailableCompetitionsCommand.Execution.IsNotCompleted) {  }
@@ -63,10 +65,12 @@ namespace FootballApp.Test
                     return new List<Competition>();
                 }));
 
-            SelectCompetitionViewModel target = new SelectCompetitionViewModel(dataServiceMock.Object, null);
+            SelectCompetitionViewModel target = new SelectCompetitionViewModel(dataServiceMock.Object, null, null);
             target.GetAvailableCompetitionsCommand.Execute(null);
 
-            while (target.GetAvailableCompetitionsCommand.Execution.IsNotCompleted) { }
+            while (target.GetAvailableCompetitionsCommand.Execution.IsNotCompleted) 
+            {
+            }
 
             dataServiceMock.Verify(mock => mock.GetAvailableCompetitionsAsync(), Times.Once());
             Assert.IsTrue(target.GetAvailableCompetitionsCommand.Execution.IsFaulted, "Task should have been faulted");
@@ -80,7 +84,7 @@ namespace FootballApp.Test
             dataServiceMock.
                 Setup(s => s.GetAvailableCompetitionsAsync()).
                 Returns(() => Task.Factory.StartNew(() => new List<Competition>()));
-            SelectCompetitionViewModel target = new SelectCompetitionViewModel(dataServiceMock.Object, null);
+            SelectCompetitionViewModel target = new SelectCompetitionViewModel(dataServiceMock.Object, null, null);
 
             bool wasSelectedCompetitionChanged = false;
             target.PropertyChanged += (s, e) => { if (e.PropertyName.Equals("SelectedCompetition"))  wasSelectedCompetitionChanged = true; };
@@ -100,7 +104,7 @@ namespace FootballApp.Test
 
             navigationMock = new Mock<INavigationService>();
 
-            SelectCompetitionViewModel target = new SelectCompetitionViewModel(dataServiceMock.Object, navigationMock.Object);
+            SelectCompetitionViewModel target = new SelectCompetitionViewModel(dataServiceMock.Object, navigationMock.Object, null);
 
             target.SelectedCompetition = new Competition() { Name = "TestCompetition", Id = 100 };
             target.NavigateToSelectedCompetitionCommand.Execute(null);
@@ -111,6 +115,84 @@ namespace FootballApp.Test
             // Assert NavigateTo
             navigationMock.Verify(s => s.NavigateTo(It.IsAny<Uri>()), Times.Once());
         }
-      
+
+        [Test]
+        public async Task TestErrorDialogIsDisplayedWhenExceptionOccurs()
+        {
+            dataServiceMock = new Mock<IFootballDataService>();
+            dataServiceMock.Setup(s => s.GetAvailableCompetitionsAsync())
+                .Returns(() => Task.Factory.StartNew(() => 
+                { 
+                    throw new Exception("Error Ocurred"); 
+                    return new List<Competition>(); 
+                }));
+
+            navigationMock = new Mock<INavigationService>();
+            dialogServiceMock = new Mock<IDialogService>();
+            SelectCompetitionViewModel target = new SelectCompetitionViewModel(dataServiceMock.Object, navigationMock.Object, dialogServiceMock.Object);
+
+            target.GetAvailableCompetitionsCommand.Execute(null);
+
+            dialogServiceMock.Verify(s => s.ShowError("Error Ocurred"), Times.Once());
+        }
+
+        [Test] 
+        public void TestExecutingGetCompetitionCommandTwiceRunsCorrectly()
+        {
+            Queue<List<Competition>> resultsQueue = new Queue<List<Competition>>(new [] 
+            {
+                new List<Competition> { new Competition { Id = 1, Name = "List1" } },
+                new List<Competition> { new Competition { Id = 2, Name = "List2" } }
+            });
+            dataServiceMock = new Mock<IFootballDataService>();
+            dataServiceMock.Setup(s => s.GetAvailableCompetitionsAsync())
+                .Returns(() => Task.Factory.StartNew(() => resultsQueue.Dequeue()));
+
+            navigationMock = new Mock<INavigationService>();
+            dialogServiceMock = new Mock<IDialogService>();
+
+            bool isSuccessfulEventRaised = false;
+            bool isCompletedEventRaised = false;
+
+            SelectCompetitionViewModel target = new SelectCompetitionViewModel(dataServiceMock.Object, navigationMock.Object, dialogServiceMock.Object);
+
+            target.GetAvailableCompetitionsCommand.Execution.PropertyChanged += (s, e) => 
+            {
+                if (e.PropertyName.Equals("IsSuccessfullyCompleted"))
+                {
+                    isSuccessfulEventRaised = true;
+                }
+                if (e.PropertyName.Equals("IsCompleted"))
+                {
+                    isCompletedEventRaised = true;
+                }
+            };
+
+            target.GetAvailableCompetitionsCommand.Execute(null);
+
+            while (target.GetAvailableCompetitionsCommand.Execution.IsNotCompleted)
+            {
+            }
+
+            Assert.AreEqual(1, target.GetAvailableCompetitionsCommand.Execution.Result.Count, "1st returned list should have 1 element");
+            Assert.AreEqual("List1", target.GetAvailableCompetitionsCommand.Execution.Result[0].Name, "1st returned list is not the expected");
+            //Assert.IsTrue(isSuccessfulEventRaised, "1st call to execute should be successful");
+            //Assert.IsTrue(isCompletedEventRaised, "1st call to execute should have completed");
+
+            // Reset events for second run
+            isSuccessfulEventRaised = false;
+            isCompletedEventRaised = false;
+
+            target.GetAvailableCompetitionsCommand.Execute(null);
+            while (!target.GetAvailableCompetitionsCommand.Execution.IsCompleted)
+            {
+            }
+
+            Assert.AreEqual(1, target.GetAvailableCompetitionsCommand.Execution.Result.Count, "2nd returned list should have 1 element");
+            Assert.AreEqual("List2", target.GetAvailableCompetitionsCommand.Execution.Result[0].Name, "2nd returned list is not the expected");
+            Assert.IsTrue(isSuccessfulEventRaised, "2nd call to execute should be successful");
+            Assert.IsTrue(isCompletedEventRaised, "2nd call to execute should have completed");
+        }
+
     }
 }
